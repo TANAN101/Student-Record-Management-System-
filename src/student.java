@@ -13,7 +13,5 @@ public class student {
         this.Department=Department;
         this.GPA=GPA;
     }
-    void display(){
 
-    }
 }

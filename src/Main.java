@@ -119,5 +119,9 @@ public class Main {
 
 
         }
+        if (a==5){
+            displayStudents show = new displayStudents();
+            show.display();
+        }
     }
 }
