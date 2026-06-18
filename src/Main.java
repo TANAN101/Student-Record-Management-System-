@@ -6,12 +6,20 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         String file_patxt = "student_info.txt";
+        String backupp = "backup.txt";
         String file_padat="student_info.dat";
         Scanner input = new Scanner(System.in);
         System.out.println("1:Add student");
         System.out.println("2:Srearch for student");
+        System.out.println("3:update student status ");
+        System.out.println("4:delete student ");
+        System.out.println("5:Display every student status");
+        System.out.println("6:Total student Gpa");
+        System.out.println("7:Highest student GPA");
+        System.out.println("8:Lowest student GPA");
+        System.out.println("9:Average student GPA");
         int a = input.nextInt();
-       ///add file
+        ///add file
         if (a == 1) {
 
             System.out.println("Enter Student Id : ");
@@ -31,6 +39,10 @@ public class Main {
 
                 pw.println(add.student_ID + " " + add.Name + " " + add.Department + " " + add.GPA);
                 pw.close();
+                PrintWriter backup = new PrintWriter(new FileWriter(backupp, true));
+
+                backup.println(add.student_ID + " " + add.Name + " " + add.Department + " " + add.GPA);
+                backup.close();
                 DataOutputStream q = new DataOutputStream(new FileOutputStream(file_padat,true));
 
                 q.writeInt(add.student_ID );
@@ -54,13 +66,13 @@ public class Main {
 
                 Scanner look = new Scanner(new File(file_patxt));
 
-            while(look.hasNext()){
-                String line=look.nextLine();
-                if (line.contains(who)){
-                    System.out.println("available: "+line);
-                }
+                while(look.hasNext()){
+                    String line=look.nextLine();
+                    if (line.contains(who)){
+                        System.out.println("available: "+line);
+                    }
 
-            }
+                }
 
 
 
@@ -129,25 +141,25 @@ public class Main {
         if (a==4){
             System.out.println("Who do you want to delete :  ");
             String delete = input.next();
-           try{  Scanner remove = new Scanner(new File(file_patxt));
-            ArrayList<String> rm_name=new ArrayList<>();
-            while (remove.hasNext()){
-                rm_name.add(remove.nextLine());}
-            for (int i =0;i<rm_name.size();i++){
-                if (rm_name.get(i).contains(delete)){
-                    rm_name.remove(rm_name.get(i));
+            try{  Scanner remove = new Scanner(new File(file_patxt));
+                ArrayList<String> rm_name=new ArrayList<>();
+                while (remove.hasNext()){
+                    rm_name.add(remove.nextLine());}
+                for (int i =0;i<rm_name.size();i++){
+                    if (rm_name.get(i).contains(delete)){
+                        rm_name.remove(rm_name.get(i));
+                    }
                 }
-            }
-               PrintWriter pupdate = new PrintWriter(new FileWriter(file_patxt));
-            for (String l:rm_name){
-                pupdate.println(l);
-            }
-            pupdate.close();
+                PrintWriter pupdate = new PrintWriter(new FileWriter(file_patxt));
+                for (String l:rm_name){
+                    pupdate.println(l);
+                }
+                pupdate.close();
 
 
 
 
-           }catch (IOException e){System.out.println(e.getMessage());}
+            }catch (IOException e){System.out.println(e.getMessage());}
 
 
 
@@ -163,8 +175,8 @@ public class Main {
 
                 while(total.hasNextLine()){
                     String[] liss=total.nextLine().split(" ");
-                   Double sum =Double.parseDouble(liss[3]);
-                   count=count+sum;
+                    Double sum =Double.parseDouble(liss[3]);
+                    count=count+sum;
 
                 }
                 System.out.println(count);
@@ -181,12 +193,45 @@ public class Main {
                     String[] high=higest.nextLine().split(" ");
                     double highh =Double.parseDouble(high[3]);
                     if(set<=highh){
-                         set=highh;
+                        set=highh;
                     }
                 }
                 System.out.println(set);
 
             }catch (FileNotFoundException e){}
         }
+        if (a==8){
+            try{
+                double set = Double.MAX_VALUE; // starts at the highest possible number
+                Scanner lowest = new Scanner(new File(file_patxt));
+                while (lowest.hasNextLine()) {
+                    String[] high = lowest.nextLine().split(" ");
+                    double highh = Double.parseDouble(high[3]);
+                    if (highh < set) {
+                        set = highh;
+                    }
+
+
+                }
+                System.out.println(set);
+
+            }catch (FileNotFoundException e){}
+
+        }
+    if (a==9){
+        try {
+            double add =0;
+            int div=0;
+            Scanner av = new Scanner(new File(file_patxt));
+            while (av.hasNext()){
+                div++;
+                String[] average=av.nextLine().split(" ");
+                double av_num=Double.parseDouble(average[3]);
+                add=add+av_num;
+            }
+            System.out.println(add/div);
+
+        }catch (FileNotFoundException e){}
+    }
     }
 }
