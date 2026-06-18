@@ -11,6 +11,7 @@ public class Main {
         System.out.println("1:Add student");
         System.out.println("2:Srearch for student");
         int a = input.nextInt();
+       ///add file
         if (a == 1) {
 
             System.out.println("Enter Student Id : ");
@@ -35,7 +36,7 @@ public class Main {
             }
 
         }
-
+///search file
         if(a==2){
             System.out.println("Enter the individuals name: ");
             String who =input.next();
@@ -58,6 +59,9 @@ public class Main {
             }catch (IOException e){System.out.println(e);}
 
         }
+
+        ///update file
+
         if (a==3){
             try {
                 System.out.println("Enter the name you want to update:  ");
@@ -69,18 +73,50 @@ public class Main {
                 while (update.hasNext()){
                     up_name.add(update.nextLine());
                 }
+                update.close();
                 for(int i=0;i<up_name.size();i++){
                     if (up_name.get(i).contains(whom)){
                         up_name.set(i,up_name.get(i).replace(whom,To));
-                    PrintWriter pupdate = new PrintWriter(new FileWriter(file_pa));
-                    pupdate.println(up_name);
-                    pupdate.close();
+
                     }
+                    PrintWriter pupdate = new PrintWriter(new FileWriter(file_pa));
+                   for (String s:up_name){
+                       pupdate.println(s);
+                   }
+                    pupdate.close();
                 }
 
 
 
+
             }catch (IOException e){System.out.println(e);}
+
+        }
+///Remove student
+        if (a==4){
+            System.out.println("Who do you want to delete :  ");
+            String delete = input.next();
+           try{  Scanner remove = new Scanner(new File(file_pa));
+            ArrayList<String> rm_name=new ArrayList<>();
+            while (remove.hasNext()){
+                rm_name.add(remove.nextLine());}
+            for (int i =0;i<rm_name.size();i++){
+                if (rm_name.get(i).contains(delete)){
+                    rm_name.remove(rm_name.get(i));
+                }
+            }
+               PrintWriter pupdate = new PrintWriter(new FileWriter(file_pa));
+            for (String l:rm_name){
+                pupdate.println(l);
+            }
+            pupdate.close();
+
+
+
+
+           }catch (IOException e){System.out.println(e.getMessage());}
+
+
 
         }
     }
